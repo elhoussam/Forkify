@@ -79,6 +79,6 @@ export const updateRecipeServings = function (newServings) {
 };
 
 export const showMetheState = function () {
-  console.log(state);
+  // console.log(state);
 };
 // loadSearchResults('pizza');

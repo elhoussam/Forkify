@@ -25,6 +25,7 @@ const controleRecipe = async function () {
     recipeView.renderSpinner();
 
     // fetching data
+    resultView.render(model.getSearchResultsPage());
 
     await model.loadRecipe(id);
     const myirecipe = model.state.recipe;
@@ -75,7 +76,8 @@ const controlServings = function (newServings) {
   // update the recipe in the State...
   model.updateRecipeServings(newServings);
   // update the recipe view
-  recipeView.render(model.state.recipe);
+  // recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
   model.showMetheState();
 };
 const init = function () {
