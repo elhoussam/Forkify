@@ -9,6 +9,7 @@ export const state = {
     page: 1,
     ResultPerPage: RES_PER_PAGE,
   },
+  foodMarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -27,9 +28,13 @@ export const loadRecipe = async function (id) {
       ingredients: recipe.ingredients,
     };
 
+    if (state.foodMarks.some(foodMark => foodMark.id === id))
+      state.recipe.foodMarked = true;
+    else state.recipe.foodMarked = false;
+
     console.log(state.recipe);
   } catch (ev) {
-    console.error(`${ev} 💥💥💥💥`);
+    console.error(`${ev} 💥💥💥📑 💥`);
 
     throw ev;
   }
@@ -83,3 +88,22 @@ export const showMetheState = function () {
   // console.log(state);
 };
 // loadSearchResults('pizza');
+
+export const addFoodMark = function (recipe) {
+  // check if the recipe is foodmarked
+  // if ( state.foodMarks.some())
+
+  state.foodMarks.push(recipe);
+
+  // mark current recipe as marked
+
+  if (recipe.id === state.recipe.id) state.recipe.foodMarked = true;
+};
+
+export const deleteFoodMark = function (id) {
+  const index = state.foodMarks.findIndex(el => el.id === id);
+  const recipe = state.foodMarks.splice(index, 1);
+
+  if (id === state.recipe.id) state.recipe.foodMarked = false;
+  // if (recipe.id === state.recipe.id) state.recipe.foodMarked = false;
+};

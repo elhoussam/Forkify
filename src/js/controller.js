@@ -2,6 +2,7 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultView from './views/resultView.js';
+import foodMarkView from './views/foodMarkView.js';
 import paginationView from './views/paginationView.js';
 
 import 'core-js/stable'; // polyfiling
@@ -25,7 +26,9 @@ const controleRecipe = async function () {
     recipeView.renderSpinner();
 
     // fetching data
+    // resultView.render(model.getSearchResultsPage());
     resultView.render(model.getSearchResultsPage());
+    foodMarkView.render(model.state.foodMarks);
 
     await model.loadRecipe(id);
     const myirecipe = model.state.recipe;
@@ -83,8 +86,21 @@ const controlServings = function (newServings) {
 const init = function () {
   recipeView.addHandlerRender(controleRecipe);
   searchView.addHandlerSearch(controleSearchResults);
+  recipeView.addHandlerAddFoodMark(controleAddFoodmark);
   paginationView.addHandlerClick(controlPagination);
   recipeView.addHandlerUpdateServings(controlServings);
 };
 
+const controleAddFoodmark = function () {
+  //  mark food
+  // console.log(model.state.recipe.foodMarked);
+  if (!model.state.recipe.foodMarked) model.addFoodMark(model.state.recipe);
+  else model.deleteFoodMark(model.state.recipe.id);
+
+  // update the view of recipe
+  recipeView.update(model.state.recipe);
+
+  // render the foodmarks
+  foodMarkView.render(model.state.foodMarks);
+};
 init();
