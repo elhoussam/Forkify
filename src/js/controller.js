@@ -84,6 +84,7 @@ const controlServings = function (newServings) {
   model.showMetheState();
 };
 const init = function () {
+  foodMarkView.addHandlerRender(controlFoodmarks);
   recipeView.addHandlerRender(controleRecipe);
   searchView.addHandlerSearch(controleSearchResults);
   recipeView.addHandlerAddFoodMark(controleAddFoodmark);
@@ -101,6 +102,9 @@ const controleAddFoodmark = function () {
   recipeView.update(model.state.recipe);
 
   // render the foodmarks
+  foodMarkView.render(model.state.foodMarks);
+};
+const controlFoodmarks = function () {
   foodMarkView.render(model.state.foodMarks);
 };
 init();

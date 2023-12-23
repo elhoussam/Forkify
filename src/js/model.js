@@ -89,6 +89,9 @@ export const showMetheState = function () {
 };
 // loadSearchResults('pizza');
 
+const persistFoodMarks = function () {
+  localStorage.setItem('foodmarks', JSON.stringify(state.foodMarks));
+};
 export const addFoodMark = function (recipe) {
   // check if the recipe is foodmarked
   // if ( state.foodMarks.some())
@@ -98,6 +101,8 @@ export const addFoodMark = function (recipe) {
   // mark current recipe as marked
 
   if (recipe.id === state.recipe.id) state.recipe.foodMarked = true;
+
+  persistFoodMarks();
 };
 
 export const deleteFoodMark = function (id) {
@@ -106,4 +111,13 @@ export const deleteFoodMark = function (id) {
 
   if (id === state.recipe.id) state.recipe.foodMarked = false;
   // if (recipe.id === state.recipe.id) state.recipe.foodMarked = false;
+
+  persistFoodMarks();
 };
+
+const init = function () {
+  const storage = localStorage.getItem('foodmarks');
+  if (storage) state.foodMarks = JSON.parse(storage);
+};
+
+init();

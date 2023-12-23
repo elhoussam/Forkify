@@ -5,6 +5,9 @@ class foodMarkView extends View {
   _parentElement = document.querySelector('.bookmarks__list');
   _errorMessage = 'No Food marks yet, find a nice recipe and foodmark it 🙂 ';
   _message = '';
+  addHandlerRender(Handler) {
+    window.addEventListener('load', Handler());
+  }
   _generateMarkup() {
     return this._data.map(res => previewView.render(res, false)).join('');
   }
