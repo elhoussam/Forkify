@@ -4,9 +4,11 @@ import searchView from './views/searchView.js';
 import resultView from './views/resultView.js';
 import foodMarkView from './views/foodMarkView.js';
 import paginationView from './views/paginationView.js';
+import AddRecipeView from './views/addRecipeView.js';
 
 import 'core-js/stable'; // polyfiling
 import 'regenerator-runtime/runtime'; // polyfiling async awaint
+import addRecipeView from './views/addRecipeView.js';
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -90,6 +92,7 @@ const init = function () {
   recipeView.addHandlerAddFoodMark(controleAddFoodmark);
   paginationView.addHandlerClick(controlPagination);
   recipeView.addHandlerUpdateServings(controlServings);
+  addRecipeView.AddHandlerUpload(controlUploadRecipe);
 };
 
 const controleAddFoodmark = function () {
@@ -106,5 +109,10 @@ const controleAddFoodmark = function () {
 };
 const controlFoodmarks = function () {
   foodMarkView.render(model.state.foodMarks);
+};
+const controlUploadRecipe = function (newRecipe) {
+  let newRecipeObj = Object.fromEntries(newRecipe);
+  console.log('Controle upload :', newRecipeObj);
+  model.uploadNewRecipe(newRecipeObj);
 };
 init();

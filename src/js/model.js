@@ -114,7 +114,9 @@ export const deleteFoodMark = function (id) {
 
   persistFoodMarks();
 };
-
+export const uploadNewRecipe = function (Recipe) {
+  console.log('Model upload :', Recipe);
+};
 const init = function () {
   const storage = localStorage.getItem('foodmarks');
   if (storage) state.foodMarks = JSON.parse(storage);
