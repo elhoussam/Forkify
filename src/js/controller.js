@@ -110,9 +110,13 @@ const controleAddFoodmark = function () {
 const controlFoodmarks = function () {
   foodMarkView.render(model.state.foodMarks);
 };
-const controlUploadRecipe = function (newRecipe) {
+const controlUploadRecipe = async function (newRecipe) {
   let newRecipeObj = Object.fromEntries(newRecipe);
   console.log('Controle upload :', newRecipeObj);
-  model.uploadNewRecipe(newRecipeObj);
+  try {
+    await model.uploadNewRecipe(newRecipeObj);
+  } catch (error) {
+    AddRecipeView.renderError(error.message);
+  }
 };
 init();

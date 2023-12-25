@@ -1,6 +1,6 @@
 import { async } from 'regenerator-runtime';
-import { API_URL, RES_PER_PAGE } from './config';
-import { getJSON } from './helpers';
+import { API_URL, RES_PER_PAGE, KEY } from './config';
+import { getJSON, sendJSON } from './helpers';
 export const state = {
   recipe: {},
   search: {
@@ -114,8 +114,36 @@ export const deleteFoodMark = function (id) {
 
   persistFoodMarks();
 };
-export const uploadNewRecipe = function (Recipe) {
-  console.log('Model upload :', Recipe);
+export const uploadNewRecipe = async function (Recipe) {
+  try {
+    const ingredients = Object.entries(Recipe)
+      .filter(el => el[0].startsWith('ingredient') && el[1] !== '')
+      .map(ing => {
+        const Arr = ing[1].replaceAll(' ', '').split(',');
+        if (Arr.length !== 3) throw new Error('Wrong ingredient format');
+        const [qte, unit, desc] = Arr;
+        return {
+          quantity: qte ? +qte : null,
+          unit: unit ? unit : '',
+          description: desc ? desc : '',
+        };
+      });
+    const recipe = {
+      title: Recipe.title,
+      source_url: Recipe.sourceUrl,
+      image_url: Recipe.image,
+      publisher: Recipe.publisher,
+      cooking_time: Recipe.cookingTime,
+      servings: Recipe.servings,
+      ingredients,
+    };
+    // console.log('Model upload :', recipe);
+    console.log(`${API_URL}?key=${KEY}`);
+    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    console.log('Model upload :', data);
+  } catch (err) {
+    throw err;
+  }
 };
 const init = function () {
   const storage = localStorage.getItem('foodmarks');

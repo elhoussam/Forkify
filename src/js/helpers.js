@@ -22,3 +22,26 @@ export const getJSON = async function (url) {
     throw error;
   }
 };
+
+export const sendJSON = async function (url, dataToBeUploaded) {
+  try {
+    const fetchPro = fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToBeUploaded),
+    });
+
+    const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
+
+    const rawdata = await res.json();
+
+    if (!res.ok) {
+      throw new Error(`${rawdata.message} ${res.status}`);
+    }
+    return rawdata;
+  } catch (error) {
+    throw error;
+  }
+};
