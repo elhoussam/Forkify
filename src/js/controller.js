@@ -6,6 +6,7 @@ import foodMarkView from './views/foodMarkView.js';
 import paginationView from './views/paginationView.js';
 import AddRecipeView from './views/addRecipeView.js';
 
+import { MODAL_CLOSE_SEC } from './config';
 import 'core-js/stable'; // polyfiling
 import 'regenerator-runtime/runtime'; // polyfiling async awaint
 import addRecipeView from './views/addRecipeView.js';
@@ -114,7 +115,16 @@ const controlUploadRecipe = async function (newRecipe) {
   let newRecipeObj = Object.fromEntries(newRecipe);
   console.log('Controle upload :', newRecipeObj);
   try {
+    addRecipeView.renderSpinner();
     await model.uploadNewRecipe(newRecipeObj);
+    //render recipe
+    recipeView.render(model.state.recipe);
+    // render success messages
+    addRecipeView.renderMessage('Upload recipe successfully');
+    //close modal window
+    setTimeout(function () {
+      // addRecipeView.toggleWindow(), MODAL_CLOSE_SEC * 1000;
+    });
   } catch (error) {
     AddRecipeView.renderError(error.message);
   }

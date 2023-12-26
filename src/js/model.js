@@ -12,21 +12,25 @@ export const state = {
   foodMarks: [],
 };
 
+const createRecipeObject = function (data) {
+  const { recipe } = data.data;
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    imageUrl: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    ...(recipe.key && { key: recipe.key }),
+  };
+};
 export const loadRecipe = async function (id) {
   try {
     const rawdata = await getJSON(`${API_URL}${id}`);
 
-    const { recipe } = rawdata.data;
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      imageUrl: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
+    const { recipe } = createRecipeObject(rawdata);
 
     if (state.foodMarks.some(foodMark => foodMark.id === id))
       state.recipe.foodMarked = true;
@@ -140,6 +144,8 @@ export const uploadNewRecipe = async function (Recipe) {
     // console.log('Model upload :', recipe);
     console.log(`${API_URL}?key=${KEY}`);
     const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    state.recipe = createRecipeObject(data);
+    addFoodMark(state.recipe);
     console.log('Model upload :', data);
   } catch (err) {
     throw err;

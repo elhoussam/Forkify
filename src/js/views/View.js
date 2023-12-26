@@ -75,4 +75,18 @@ export default class View {
     this._clear();
     this._parentElement.insertAdjacentHTML('beforeend', markup);
   }
+  renderMessage(message = this._errorMessage) {
+    let markup = `
+    <div class="message">
+    <div>
+      <svg>
+        <use href="${myicons}#icon-smile"></use>
+      </svg>
+    </div>
+    <p>${message}</p>
+  </div> `;
+
+    this._clear();
+    this._parentElement.insertAdjacentHTML('beforeend', markup);
+  }
 }
