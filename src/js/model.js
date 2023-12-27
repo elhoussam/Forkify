@@ -28,17 +28,18 @@ const createRecipeObject = function (data) {
 };
 export const loadRecipe = async function (id) {
   try {
+    // console.log(`${API_URL}${id}`);
     const rawdata = await getJSON(`${API_URL}${id}`);
 
-    const { recipe } = createRecipeObject(rawdata);
+    const recipe = createRecipeObject(rawdata);
+    state.recipe = recipe;
+    // console.log(state.recipe);
 
     if (state.foodMarks.some(foodMark => foodMark.id === id))
       state.recipe.foodMarked = true;
     else state.recipe.foodMarked = false;
-
-    console.log(state.recipe);
   } catch (ev) {
-    console.error(`${ev} 💥💥💥📑 💥`);
+    console.error(`${ev} 💥💥💥📑 `);
 
     throw ev;
   }
@@ -58,7 +59,7 @@ export const loadSearchResults = async function (query) {
       };
     });
     state.search.page = 1;
-    console.log(state.recipe);
+    // console.log(state.recipe);
   } catch (error) {
     console.error(`${error} 💥💥💥💥`);
 

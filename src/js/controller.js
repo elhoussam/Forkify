@@ -33,9 +33,10 @@ const controleRecipe = async function () {
     resultView.render(model.getSearchResultsPage());
     foodMarkView.render(model.state.foodMarks);
 
-    await model.loadRecipe(id);
-    const myirecipe = model.state.recipe;
-
+    // debugger;
+    const res = await model.loadRecipe(id);
+    // const myirecipe = model.state.recipe;
+    // console.log(model.state.recipe);
     // rendering the data
     recipeView.render(model.state.recipe);
   } catch (err) {
