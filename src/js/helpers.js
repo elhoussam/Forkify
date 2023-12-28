@@ -8,16 +8,23 @@ const timeout = function (s) {
   });
 };
 
+const AJAX = async function (result) {
+  try {
+    const rawdata = await result.json();
+
+    if (!result.ok) {
+      throw new Error(`${rawdata.message} ${result.status}`);
+    }
+    return rawdata;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getJSON = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
 
-    const rawdata = await res.json();
-
-    if (!res.ok) {
-      throw new Error(`${rawdata.message} ${res.status}`);
-    }
-    return rawdata;
+    return AJAX(res);
   } catch (error) {
     throw error;
   }
@@ -35,12 +42,7 @@ export const sendJSON = async function (url, dataToBeUploaded) {
 
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
 
-    const rawdata = await res.json();
-
-    if (!res.ok) {
-      throw new Error(`${rawdata.message} ${res.status}`);
-    }
-    return rawdata;
+    return AJAX(res);
   } catch (error) {
     throw error;
   }

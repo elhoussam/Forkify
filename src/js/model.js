@@ -29,7 +29,7 @@ const createRecipeObject = function (data) {
 export const loadRecipe = async function (id) {
   try {
     // console.log(`${API_URL}${id}`);
-    const rawdata = await getJSON(`${API_URL}${id}`);
+    const rawdata = await getJSON(`${API_URL}${id}?key=${KEY}`);
 
     const recipe = createRecipeObject(rawdata);
     state.recipe = recipe;
@@ -48,7 +48,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await getJSON(`${API_URL}?search=${query}&key=${KEY}`);
     // console.log(data);
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -56,6 +56,7 @@ export const loadSearchResults = async function (query) {
         title: rec.title,
         publisher: rec.publisher,
         imageUrl: rec.image_url,
+        ...(rec.key && { key: rec.key }),
       };
     });
     state.search.page = 1;
@@ -143,7 +144,7 @@ export const uploadNewRecipe = async function (Recipe) {
       ingredients,
     };
     // console.log('Model upload :', recipe);
-    console.log(`${API_URL}?key=${KEY}`);
+    // console.log(`${API_URL}?key=${KEY}`);
     const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addFoodMark(state.recipe);

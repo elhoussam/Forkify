@@ -120,6 +120,14 @@ const controlUploadRecipe = async function (newRecipe) {
     await model.uploadNewRecipe(newRecipeObj);
     //render recipe
     recipeView.render(model.state.recipe);
+
+    // update food mark list
+    foodMarkView.render(model.state.foodMarks);
+
+    // use history API to change current ID
+
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
     // render success messages
     addRecipeView.renderMessage('Upload recipe successfully');
     //close modal window
