@@ -1,0 +1,7 @@
+node_modules
+dist
+.parcel-cache
+.DS_Store
+package copy.json
+package-lock.json
+*.png
