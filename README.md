@@ -18,7 +18,7 @@ You will need to sign up for an API key at [Forkify](https://forkify-api.herokua
 
 - JavaScript
 - Parcel
-- [Fraction.js](https://github.com/infusion/Fraction.js)
+- [fracty.js](https://github.com/dvho/fracty)
 - [Forkify API](https://forkify-api.herokuapp.com/v2)
 
 ## Student
